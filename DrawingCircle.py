@@ -1,9 +1,7 @@
   #VVsolution+OpenDXF
 import sys
 from PyQt5 import QtWidgets, uic
-from PyQt5.QtGui import QPainter, QPixmap, QPen, QColor
-from PyQt5.QtWidgets import QVBoxLayout,QPushButton,QFileDialog,QWidget,QLabel, QGridLayout,QApplication, QMainWindow
-import pyqtgraph
+from PyQt5.QtWidgets import QFileDialog,QWidget, QGridLayout, QMainWindow,QHBoxLayout,QPushButton
 import matplotlib
 import math
 import os
@@ -15,25 +13,41 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
 
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
-        self.LoadUiWind()
-        
-       # layout.addWidget(self.label, 1, 0)  
-       # self.graphWidget.showGrid(None, None, 0)
-       # self.drawCircuit(0, 0, 20)
-
-    def LoadUiWind(self):
-        uic.loadUi('C:\\Users\\UserName\\source\\repos\\Python\\VVsolution-OpenDXF\\design.ui', self)
+        uic.loadUi('design.ui', self)
         self.pushButton.setFixedSize(140, 70)
         self.pushButton.clicked.connect(self.OpenFile)
-        layout = QGridLayout(self.centralwidget)
-        layout.addWidget(self.pushButton, 0, 0, alignment=Qt.AlignLeft)
+        self.pushButtons.setFixedSize(140, 70)
+        self.pushButtons.clicked.connect(self.Trajectory)
+        #layout = QGridLayout(self.centralwidget)
+        #layout.addWidget(self.pushButton,0, 0, alignment=Qt.AlignLeft)
+        #layout.addWidget(self.pushButtons, 0, 0, alignment=Qt.AlignTop)
+        self.set_buttons()
+      
+
+    def Trajectory(self):
+        self.plot([-10,10,10,20,20,10],[60,10,20,20,10,10])
+        self.graphWidget.plot([100,100],[100,0])
+
+    def set_buttons(self):
+      self.button_layout = QHBoxLayout()
+      self.prev_button = QPushButton('Previous Event')
+      self.next_button = QPushButton('Next Event')
+      # self.catalog_button = QtGui.QPushButton("Save Catalog")
+      self.next_button.clicked.connect(self.next_event)
+      self.prev_button.clicked.connect(self.prev_event)
+      # self.catalog_button.clicked.connect(self.save_catalog)
+
+      self.button_layout.addWidget(self.prev_button)
+      self.button_layout.addWidget(self.next_button)
+      # self.button_layout.addWidget(self.catalog_button)
+
+      self.layout.addLayout(self.button_layout) 
 
     def OpenFile(self):
          response = self.getFileName()
          file=open(response,encoding='utf=8')
          mass=MyClass(file)
          mass1 = mass.Scanner()
-         self.LoadUiWind()
          exportMass=[]
          k=-1
          for i in mass1:
@@ -43,9 +57,7 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
                  self.drawCircuit(exportMass[0],exportMass[1],exportMass[2])
                  exportMass.clear()
                  k=-1
-
-           
-           
+         
          print(mass1)
          
 
@@ -72,7 +84,6 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
             
             X.append(Rc*math.cos(math.pi*alpha/180)+Xc)
             Y.append(Rc*math.sin(math.pi*alpha/180)+Yc)
-     
        
         self.graphWidget.plot(X, Y)
 
@@ -89,209 +100,3 @@ if __name__ == '__main__':
     sys.exit(app.exec_())
    #endregion
    
-
-    
-     #region когда то созданное
-   
-''' public string Recording_Str(ref StreamReader streamReader)// KOMPAS
-        {
-            string str;
-            while (!streamReader.EndOfStream)
-            {
-                str = streamReader.ReadLine();
-                if (str == "DIMSTYLE")
-                {
-
-                    while (str != "XRECORD")
-                    {
-                        str = streamReader.ReadLine();
-                        strja += str + Environment.NewLine;
-                    }
-
-                }
-
-            }
-            return strja;
-        }
-
-        public string Scanner()
-        {
-
-
-            using (TextReader tr = new StringReader(strja))
-            {
-
-                while ((str = tr.ReadLine()) != null)
-                {
-                    if (str == "AcDbPolyline")
-                    {
-
-                        str1 += str + Environment.NewLine;
-                        for (int i = 0; i < 7; i++)
-                        {
-                            str = tr.ReadLine();
-                        }
-                        while (str != "ENDSEC")
-                        {
-                            str = tr.ReadLine();
-                            for (int j = 0; j < 8; j++)
-                            {
-                                // str = tr.ReadLine();
-                                NumberFormatInfo numberFormatInfo = new NumberFormatInfo()// решение проблемы точки и запятой
-                                {
-                                    NumberDecimalSeparator = ".", // решение проблемы точки и запятой
-                                };
-                                str1 += str + Environment.NewLine;
-                                size = j;
-                                str = tr.ReadLine();
-                                str = tr.ReadLine();
-                            }
-
-                            for (int i = 0; i < 3; i++)
-                            {
-                                str = tr.ReadLine();
-                                if (str == "LWPOLYLINE")
-                                {
-                                    break;
-                                }
-                            }
-                            break;
-                        }
-
-                    }
-
-                    if (str == "AcDbLine")
-                    {
-
-                        str1 += str + Environment.NewLine;
-                        str = tr.ReadLine();
-                        while (str != "ENDSEC")
-                        {
-                            str = tr.ReadLine();
-                            for (int j = 0; j < 5; j++)
-                            {
-                                // str = tr.ReadLine();
-                                NumberFormatInfo numberFormatInfo = new NumberFormatInfo()// решение проблемы точки и запятой
-                                {
-                                    NumberDecimalSeparator = ".", // решение проблемы точки и запятой
-                                };
-                                if (j == 2)
-                                {
-                                    str = tr.ReadLine();
-                                    str = tr.ReadLine();
-                                }
-                                if (j == 4)
-                                {
-                                    break;
-                                }
-
-                                str1 += str + Environment.NewLine;
-                                str = tr.ReadLine();
-                                str = tr.ReadLine();
-                            }
-                            for (int i = 0; i < 3; i++)
-                            {
-                                str = tr.ReadLine();
-                                if (str == "LINE")
-                                {
-                                    break;
-                                }
-                            }
-                            break;
-                        }
-
-                    }
-
-                    if (str == "AcDbCircle")
-                    {
-
-                        str1 += str + Environment.NewLine;
-                        str = tr.ReadLine();
-
-                        while (str != "ENDSEC")
-                        {
-                            // 
-
-                            str = tr.ReadLine();
-                            for (int j = 0; j < 3; j++)
-                            {
-
-                                // str = tr.ReadLine();
-
-                                NumberFormatInfo numberFormatInfo = new NumberFormatInfo()// решение проблемы точки и запятой
-                                {
-                                    NumberDecimalSeparator = ".", // решение проблемы точки и запятой
-                                };
-                                if (j == 2)
-                                {
-                                    str = tr.ReadLine();
-                                    str = tr.ReadLine();
-                                }
-                                str1 += str + Environment.NewLine;
-
-
-
-                                str = tr.ReadLine();
-                                str = tr.ReadLine();
-                            }
-                            for (int i = 0; i < 10; i++)
-                            {
-                                str = tr.ReadLine();
-                                if (str == "CIRCLE")
-                                {
-                                    break;
-                                }
-                            }
-                            break;
-                        }
-                    }
-
-
-
-
-                }
-            }
-
-            return str1;
-        }
-        public string[] ForListBox()
-        {
-            string[] str2 = new string[300];
-            int a = 0;
-            using (TextReader tr = new StringReader(str1))
-            {
-
-                for (int i = 0; i < str1.Length; i++)
-                {
-                    str = tr.ReadLine();
-                    str2[i] = str;
-                    a = i;
-                    if (str == null)
-                    {
-
-                        break;
-                    }
-
-                }
-
-                scanner = new string[a];
-                for (int i = 0; i < scanner.Length; i++)
-                {
-                    scanner[i] = str2[i];
-                    if (str2 == null)
-                    {
-                        break;
-                    }
-                }
-
-            }
-            return scanner;
-        }
-        public int Size()
-        {
-            return size + 1;
-        }
-    }
-}
-'''
-#endregion
