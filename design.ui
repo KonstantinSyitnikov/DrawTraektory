@@ -46,21 +46,6 @@
     </property>
    </widget>
    </widget>
-   <widget class="QWidget" name="centralwidges">
-   <widget class="QPushButton" name="pushButtons">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>100</y>
-      <width>50</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Works</string>
-    </property>
-   </widget>
-   </widget>
   <widget class="QWidget" name="centralwidget">
    <widget class="PlotWidget" name="graphWidget" native="true">
     <property name="geometry">

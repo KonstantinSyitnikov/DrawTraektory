@@ -1,7 +1,7 @@
   #VVsolution+OpenDXF
 import sys
 from PyQt5 import QtWidgets, uic
-from PyQt5.QtWidgets import QFileDialog,QWidget, QGridLayout, QMainWindow,QHBoxLayout,QPushButton
+from PyQt5.QtWidgets import QFileDialog,QWidget, QGridLayout, QMainWindow,QVBoxLayout,QPushButton
 import matplotlib
 import math
 import os
@@ -14,35 +14,24 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         uic.loadUi('design.ui', self)
-        self.pushButton.setFixedSize(140, 70)
-        self.pushButton.clicked.connect(self.OpenFile)
-        self.pushButtons.setFixedSize(140, 70)
-        self.pushButtons.clicked.connect(self.Trajectory)
-        #layout = QGridLayout(self.centralwidget)
-        #layout.addWidget(self.pushButton,0, 0, alignment=Qt.AlignLeft)
-        #layout.addWidget(self.pushButtons, 0, 0, alignment=Qt.AlignTop)
-        self.set_buttons()
-      
+       # layout = QGridLayout(self.centralwidget)
+        layout = QVBoxLayout()
+        btnOpenFile= QPushButton('OpenFile',self)
+        btnOpenFile.move(10,10)
+        btnOpenFile.setFixedSize(140,70)
+        btnOpenFile.clicked.connect(self.OpenFile)
+        btnTraje= QPushButton('Trajectory',self)
+        btnTraje.move (10,80)
+        btnTraje.setFixedSize(140,70)
+        btnTraje.clicked.connect(self.Trajectory)
+        #layout.addWidget(btnTraje)
+        #layout.addWidget(btnOpenFile)
 
     def Trajectory(self):
         self.plot([-10,10,10,20,20,10],[60,10,20,20,10,10])
         self.graphWidget.plot([100,100],[100,0])
 
-    def set_buttons(self):
-      self.button_layout = QHBoxLayout()
-      self.prev_button = QPushButton('Previous Event')
-      self.next_button = QPushButton('Next Event')
-      # self.catalog_button = QtGui.QPushButton("Save Catalog")
-      self.next_button.clicked.connect(self.next_event)
-      self.prev_button.clicked.connect(self.prev_event)
-      # self.catalog_button.clicked.connect(self.save_catalog)
-
-      self.button_layout.addWidget(self.prev_button)
-      self.button_layout.addWidget(self.next_button)
-      # self.button_layout.addWidget(self.catalog_button)
-
-      self.layout.addLayout(self.button_layout) 
-
+   
     def OpenFile(self):
          response = self.getFileName()
          file=open(response,encoding='utf=8')
