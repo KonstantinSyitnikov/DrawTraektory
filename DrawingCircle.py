@@ -1,13 +1,13 @@
   #VVsolution+OpenDXF
 import sys
 from PyQt5 import QtWidgets, uic
-from PyQt5.QtWidgets import QFileDialog,QWidget, QGridLayout, QMainWindow,QVBoxLayout,QPushButton
+from PyQt5.QtWidgets import QFileDialog,QWidget, QGridLayout, QMainWindow,QPushButton,QTextEdit
 import matplotlib
 import math
 import os
 from PyQt5.QtCore import Qt
 from OpenRead import MyClass
-
+from tkinter import *
 
 class MainWindow(QtWidgets.QMainWindow,QWidget):
 
@@ -15,7 +15,6 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
         super(MainWindow, self).__init__(*args, **kwargs)
         uic.loadUi('design.ui', self)
        # layout = QGridLayout(self.centralwidget)
-        layout = QVBoxLayout()
         btnOpenFile= QPushButton('OpenFile',self)
         btnOpenFile.move(10,10)
         btnOpenFile.setFixedSize(140,70)
@@ -24,14 +23,17 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
         btnTraje.move (10,80)
         btnTraje.setFixedSize(140,70)
         btnTraje.clicked.connect(self.Trajectory)
-        #layout.addWidget(btnTraje)
-        #layout.addWidget(btnOpenFile)
+        
+        textBox=QTextEdit('GCode',self)       
+        textBox.move (10,150)
+        textBox.setFixedSize(280,210)
+        
+       
 
     def Trajectory(self):
         self.plot([-10,10,10,20,20,10],[60,10,20,20,10,10])
         self.graphWidget.plot([100,100],[100,0])
 
-   
     def OpenFile(self):
          response = self.getFileName()
          file=open(response,encoding='utf=8')
@@ -59,7 +61,7 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
             filter=file_filter,
             initialFilter= 'Data file(*.txt *.dxf)'           
            )
-        print(response)
+        self.textBox.setText(response)
         return response[0]
     
     def plot(self,hour,temperature):
@@ -87,5 +89,12 @@ if __name__ == '__main__':
     main = MainWindow()
     main.show()
     sys.exit(app.exec_())
-   #endregion
+
    
+"""
+    def TextBox(myText ,self):
+        textBox=QTextEdit('GCode',self)       
+        textBox.move (10,150)
+        textBox.setFixedSize(280,210)
+        self.textBox.setText(myText)
+"""
