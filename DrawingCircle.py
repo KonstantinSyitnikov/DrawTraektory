@@ -14,6 +14,7 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         uic.loadUi('design.ui', self)
+       
        # layout = QGridLayout(self.centralwidget)
         btnOpenFile= QPushButton('OpenFile',self)
         btnOpenFile.move(10,10)
@@ -22,17 +23,35 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
         btnTraje= QPushButton('Trajectory',self)
         btnTraje.move (10,80)
         btnTraje.setFixedSize(140,70)
-        btnTraje.clicked.connect(self.Trajectory)
+        
         
         textBox=QTextEdit('GCode',self)       
         textBox.move (10,150)
         textBox.setFixedSize(280,210)
+        myText= (2,5,7,8,3)#self.callFunction
         
-       
+        self.textBox.setText(myText)
+        btnTraje.clicked.connect(textBox.textChanged(myText))
+        
+    def callFunction(self):
+        myTextA = []
+        myTextB = []
+        returnText=[]
+        for i in 30:
+           myTextA.append((i+5)*2)
+           myTextB .append((i-5)*2)
+        self.Trajectory(self,myTextA,myTextB)
+        for i in myTextA:
+            returnText.append(myTextA[i])
+            returnText.append(myTextB[i])
+        return returnText
+          
 
-    def Trajectory(self):
-        self.plot([-10,10,10,20,20,10],[60,10,20,20,10,10])
+    def Trajectory(self,myTrajectorA=[],myTrajectorB=[]):       
+        self.plot(myTrajectorA,myTrajectorB)
         self.graphWidget.plot([100,100],[100,0])
+        
+        
 
     def OpenFile(self):
          response = self.getFileName()
@@ -61,8 +80,8 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
             filter=file_filter,
             initialFilter= 'Data file(*.txt *.dxf)'           
            )
-        self.textBox.setText(response)
-        return response[0]
+        
+        return response
     
     def plot(self,hour,temperature):
         self.graphWidget.plot(hour, temperature)
@@ -79,9 +98,6 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
         self.graphWidget.plot(X, Y)
 
              
-            
-       
-#вызывается так
         
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
@@ -92,9 +108,5 @@ if __name__ == '__main__':
 
    
 """
-    def TextBox(myText ,self):
-        textBox=QTextEdit('GCode',self)       
-        textBox.move (10,150)
-        textBox.setFixedSize(280,210)
-        self.textBox.setText(myText)
+   
 """
