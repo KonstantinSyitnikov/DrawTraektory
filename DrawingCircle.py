@@ -14,7 +14,7 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         
-        uic.loadUi('design.ui', self)
+        uic.loadUi('twoButtonOneTextEdit.ui', self)
         self.setWindowTitle("R=robot")
        #layout = QGridLayout(self.centralwidget)
         btnOpenFile= QPushButton('OpenFile',self)
