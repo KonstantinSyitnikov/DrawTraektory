@@ -25,33 +25,44 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
         btnTraje.setFixedSize(140,70)
         
         
-        textBox=QTextEdit('GCode',self)       
-        textBox.move (10,150)
-        textBox.setFixedSize(280,210)
-        myText= (2,5,7,8,3)#self.callFunction
+       # textBox=QTextEdit('GCode',self)       
+        #textBox.move (10,150)
+        #textBox.setFixedSize(280,210)
+       
         
-        self.textBox.setText(myText)
-        btnTraje.clicked.connect(textBox.textChanged(myText))
+        #self.textBox.setText(myText)
+        btnTraje.clicked.connect(self.ListBox(self.callFunction()))
         
     def callFunction(self):
         myTextA = []
         myTextB = []
         returnText=[]
-        for i in 30:
+        for i in range(30):
            myTextA.append((i+5)*2)
            myTextB .append((i-5)*2)
-        self.Trajectory(self,myTextA,myTextB)
+        self.Trajectory(myTextA,myTextB)
         for i in myTextA:
-            returnText.append(myTextA[i])
-            returnText.append(myTextB[i])
+            returnText.append(i)
+           # returnText.append(myTextB[i])
+        self.ListBox(returnText)
         return returnText
-          
 
-    def Trajectory(self,myTrajectorA=[],myTrajectorB=[]):       
-        self.plot(myTrajectorA,myTrajectorB)
-        self.graphWidget.plot([100,100],[100,0])
+    def plot(self,hour,temperature):
+        self.graphWidget.plot(hour, temperature)     
+
+    def Trajectory(self,myTrajectorA,myTrajectorB):       
+       
+        self.graphWidget.plot(myTrajectorA,myTrajectorB)
         
-        
+    def ListBox(myText,self):
+       # myText= (2,5,7,8,3)#self.callFunction
+        root = Tk()
+        lb = Listbox(width=20,height=10)
+        lb.pack()
+        for i in myText:
+          lb.insert(0,i)
+        root.mainloop()  
+
 
     def OpenFile(self):
          response = self.getFileName()
@@ -83,8 +94,7 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
         
         return response
     
-    def plot(self,hour,temperature):
-        self.graphWidget.plot(hour, temperature)
+  
 
   #Костя, функция рисования окружности
     def drawCircuit(self, Xc, Yc, Rc):
