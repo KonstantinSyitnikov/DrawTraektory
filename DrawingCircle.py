@@ -13,9 +13,10 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
 
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
+        
         uic.loadUi('design.ui', self)
-       
-       # layout = QGridLayout(self.centralwidget)
+        self.setWindowTitle("R=robot")
+       #layout = QGridLayout(self.centralwidget)
         btnOpenFile= QPushButton('OpenFile',self)
         btnOpenFile.move(10,10)
         btnOpenFile.setFixedSize(140,70)
@@ -23,20 +24,24 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
         btnTraje= QPushButton('Trajectory',self)
         btnTraje.move (10,80)
         btnTraje.setFixedSize(140,70)
+        textEdit=QTextEdit('GCode',self)       
+        textEdit.move (10,150)
+        textEdit.setFixedSize(280,210)
+
+        btnTraje.clicked.connect(self.TextBox)
         
-        
-       # textBox=QTextEdit('GCode',self)       
-        #textBox.move (10,150)
-        #textBox.setFixedSize(280,210)
+      
        
         
-        #self.textBox.setText(myText)
-        btnTraje.clicked.connect(self.ListBox(self.callFunction()))
+        
+        
         
     def callFunction(self):
         myTextA = []
         myTextB = []
         returnText=[]
+     #   self.textEdit.setPlainText("hkjhkjh")
+     #   self.textEdit.textChanged("hkjhkjh")
         for i in range(30):
            myTextA.append((i+5)*2)
            myTextB .append((i-5)*2)
@@ -44,7 +49,8 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
         for i in myTextA:
             returnText.append(i)
            # returnText.append(myTextB[i])
-        self.ListBox(returnText)
+       # self.TextBox(returnText)
+        
         return returnText
 
     def plot(self,hour,temperature):
@@ -54,14 +60,14 @@ class MainWindow(QtWidgets.QMainWindow,QWidget):
        
         self.graphWidget.plot(myTrajectorA,myTrajectorB)
         
-    def ListBox(myText,self):
-       # myText= (2,5,7,8,3)#self.callFunction
-        root = Tk()
-        lb = Listbox(width=20,height=10)
-        lb.pack()
-        for i in myText:
-          lb.insert(0,i)
-        root.mainloop()  
+    def TextBox(self ):#myText 
+      
+         self.textEdit.setPlainText("hkjhkjh")
+         
+         
+             
+
+       
 
 
     def OpenFile(self):
