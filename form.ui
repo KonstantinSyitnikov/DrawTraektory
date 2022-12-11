@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+  <class>MainWindow</class>
+    <widget class="QMainWindow" name="MainWindow">
+        <property name="geometry">
+            <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>400</width>
+               <height>300</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+        <string>Form1</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+        <layout class="QVBoxLayout" name="verticalLayout"/>
+      </item>
+      <item>
+       <widget class="QTabWidget" name="tabWidget">
+        <property name="currentIndex">
+          <number>-1</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+        <widget class="QPushButton" name="addtab">
+          <property name="text">
+            <string>AddTab</string>
+          </property>
+        </widget>
+      </item>
+      <item>
+        <widget class="QLineEdit" name="lineEdit">
+          <property name="geometry">
+            <rect>
+             <x>570</x>
+             <y>520</y>
+             <width>431</width>
+             <height>27</height>
+            </rect>
+          </property>
+        </widget>
+      </item>
+      <item>
+        <widget class="PlotWidget" name="graphWidget" native="true">
+          <property name="geometry">
+            <rect>
+              <x>510</x>
+              <y>10</y>
+              <width>500</width>
+              <height>500</height>
+            </rect>
+          </property>
+          <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+            </sizepolicy>
+          </property>
+        </widget>
+      </item>
+      <item>
+        <widget class="QLabel" name="MDI">
+          <property name="geometry">
+            <rect>
+              <x>520</x>
+              <y>520</y>
+              <width>31</width>
+              <height>19</height>
+            </rect>
+          </property>
+          <property name="text">
+            <string>MDI</string>
+          </property>
+        </widget>
+      </item>
+      <item>
+        <widget class="QMenuBar" name="menubar">
+          <property name="geometry">
+            <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>1024</width>
+              <height>24</height>
+            </rect>
+          </property>
+        </widget>
+      </item>
+      
+    </layout>
+       
+  </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>addtab</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>addtab_slot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>244</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>addtext</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>addtext_slot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>277</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>addtab_slot()</slot>
+  <slot>addtext_slot()</slot>
+ </slots>
+</ui>
